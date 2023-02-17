@@ -10,8 +10,9 @@ This script provides a class that generates RSA keys, encrypts and decrypts mess
 
 # Generate Keypairs
 ```
-    const {publicKey, privateKey} = rsa.genKeypair()
+    const {publicKey, privateKey} = rsa.genKeypair(bits)
 ```
+Keep in mind that generating keypairs usually takes a couple minutes.
 
 
 # Encrypt
