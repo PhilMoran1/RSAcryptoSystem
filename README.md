@@ -28,7 +28,7 @@ Keep in mind that generating keypairs usually takes a couple of minutes.
 
 # Other functions
 ```
-getPrime(bits: number): bigint                 // generates a prime random prime number
+getPrime(bits: number): bigint                 // generates a random prime number
 
 isProbablyPrime(n: bigint, k: number): boolean // miller rabins primality test
 
