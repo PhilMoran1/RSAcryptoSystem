@@ -28,6 +28,12 @@ Keep in mind that generating keypairs usually takes a couple of minutes.
 
 # Other functions
 ```
+getPrime(bits: number): bigint                 // generates a prime random prime number
+
+isProbablyPrime(n: bigint, k: number): boolean // miller rabins primality test
+
+randBetween(min: bigint, max: bigint): bigint  // random range for bigint
+
 numberToBin(num: bigint): string
 
 modInverse(e: bigint, phi: bigint): bigint
@@ -38,13 +44,8 @@ lcm(a: bigint, b: bigint): bigint
 
 gcd(a: bigint, b: bigint): bigint 
 
-getPrime(bits: number): bigint 
-
-isProbablyPrime(n: bigint, k: number): boolean
-
 modPow(base: bigint, exponent: bigint, modulus: bigint): bigint
 
-randBetween(min: bigint, max: bigint): bigint 
 ```
 
 Do not use this for production.
