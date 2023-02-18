@@ -1,11 +1,5 @@
-
-// /**
-//  * This file is just a silly example to show everything working in the browser.
-//  * When you're ready to start on your site, clear the file. Happy hacking!
-//  **/
 // // @ts-check
 
-// //import confetti from 'canvas-confetti';
 class RSACryptoSystem {
 
     randBetween(min: bigint, max: bigint): bigint {
@@ -119,10 +113,9 @@ class RSACryptoSystem {
     
       
 
-    getPrime(): bigint  {
+    getPrime(bits: number): bigint  {
         let randBigInt: bigint = BigInt(0)
-        const numBits = 512;
-        const numBytes = numBits / 8;
+        const numBytes = bits / 8;
 
         while (true) {
             // random n bit integer
@@ -173,21 +166,16 @@ class RSACryptoSystem {
       }
       
 
-    genKeyPair() {
+    genKeyPair(bits: number) {
         console.log("generating keypair")
+
         // p and q, two large prime numbers
-        const p: bigint = this.getPrime();
-        const q: bigint = this.getPrime();
+        const p: bigint = this.getPrime(bits);
+        const q: bigint = this.getPrime(bits);
 
         console.log("p and q created")
         console.log(p)
         console.log(q)
-        // const p: bigint = BigInt("11772081684726778652942951653652502300969153429777407875457646938026511219479684945318685024283675835349934539450041447865645585010604524119921435092952437")
-        // const q: bigint = BigInt("4436396501126470242512235253290373561645400323276531567719129437215916023446002773255598403873117365731561214870362971176095938695903549178118526429462593")
-
-        // for (let i in q.toString())
-        // console.log("P -", p.toString())
-        // console.log("Q -", q.toString())
 
         // n - n is released as part of the public key.
         const n: bigint = (p * q);
@@ -200,12 +188,6 @@ class RSACryptoSystem {
         const e: bigint = BigInt(65537);
 
         // d ≡ e^−1 (mod ctf); 
-        //const d = e ** -1n % ctf;
-        // const [gcd, d, y] = this.extendedEuclideanAlgorithm(e, ctf);
-
-        // if (gcd !== 1n) {
-        // throw new Error('e is not invertible modulo ctf');
-        // }
 
         const phi = (p - 1n) * (q - 1n);
 
@@ -219,28 +201,58 @@ class RSACryptoSystem {
 
         }
         
+        numberToBin(num: bigint): string {
+            let binary = "";
+            let remainder: bigint;
+          
+            while (num > 0) {
+              remainder = num % 2n;
+              binary = remainder.toString() + binary;
+              num = num / 2n;
+            }
+          
+            return binary;
+          }
+          
+         binaryToString(binary: string): string {
+
+            let result = "";
+            for (let i = 0; i < binary.length; i += 7) {
+                const byte =  binary.substring(i, i + 7);
+                console.log(byte)
+              const charCode = parseInt(byte, 2);
+              result += String.fromCharCode(charCode);
+            }
+            return result;
+          }
 
         encrypt(message: string, reciever: string) {
 
             let messagebin = "";
+            
             // message to binary
             for (var i = 0; i < message.length; i++) {
-                messagebin += message[i].charCodeAt(0).toString(2);
+                let byte = message[i].charCodeAt(0).toString(2)
+                messagebin += byte.length < 7 ? " " + byte: byte;
             }
-
-            console.log("encrypt bin - ",messagebin)
-
+            //for (let i; i < messagebin.length; i++)
             // binary to number
             let n = BigInt(0)
             let x = BigInt(1)
-            for (var i = messagebin.length; i > 0; i--) {
+            for (var i = messagebin.length-1; i >= 0; i--) {
+                console.log(messagebin[i])
                 if (messagebin[i] == "1") {
                     n += x
                 }
+                //console.log(x)
                 x *= BigInt(2)
             }
-            console.log(n)
+
+            console.log("encrypt bin - ",messagebin)
+            console.log("n - ", n)
             console.log("encrypted n to string - " , n.toString(2))
+            console.log("bin to string - ", this.binaryToString(messagebin))
+
             console.log(BigInt(reciever))
             // c ≡ m^e mod n
             const c = this.modPow(n,BigInt(65537),BigInt(reciever))
@@ -253,9 +265,13 @@ class RSACryptoSystem {
 
             const m = this.modPow(message,BigInt(privateKey),BigInt(sender));
             
-            const mbin = m.toString(2)
+            const mbin = this.numberToBin(m) //m.toString(2)
             
-            console.log("decryptbin - ",mbin)
+            console.log("decryptbin - ", mbin)
+
+            console.log("result - ",this.binaryToString(mbin))
+
+
         }
 
 }

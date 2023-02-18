@@ -27,7 +27,7 @@ function App() {
     //setPublicKey(publicKey.toString())
     //console.log("public key - ",publicKey)
     //console.log("private key - ", privateKey)
-    const message = "hello"
+    const message = "hello i love you wont you tell me your name?!!!!!!"
 
     // alice sends to bob
     const encryptedMessage = rsa.encrypt(message , bobpublicKey)
