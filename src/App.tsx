@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { isReadable } from 'stream';
 // import './App.css';
 import RSACryptoSystem from './rsa';
 //import 'rsa.rsx';
@@ -23,18 +24,18 @@ function App() {
     const bobpublicKey: string = "6272819220256682492235125999125656300151134524785329023684488506173107279158917982863896985583114990697665100310984536063834827375133770044493674336814836985592389500340844591863395442153939598949440656984681601134663136819248403804905831112816151556876544919555818750947368983686751063531309264056702205289"
     const bobprivateKey: string = "3514336989947123168094314987104944113594598567931747345203829355648839281152295521259955530763618003775671292371002932857100925534168281043130967859756017768769033219038111504173678581821282588187345529608403367953754321873013767681395018941067418700009029783578738403992168304327836421349989658108904657793"
     
-    
+    rsa.SHA256("hello world")
     //setPublicKey(publicKey.toString())
     //console.log("public key - ",publicKey)
     //console.log("private key - ", privateKey)
-    const message = "hello i love you wont you tell me your name?!!!!!!"
+    //const message = "hello i love you wont you tell me your name?!!!!!!"
 
     // alice sends to bob
-    const encryptedMessage = rsa.encrypt(message , bobpublicKey)
+    //const encryptedMessage = rsa.encrypt(message , bobpublicKey)
 
-    const decryptedMessage = rsa.decrypt(encryptedMessage, bobprivateKey, bobpublicKey)
+    //const decryptedMessage = rsa.decrypt(encryptedMessage, bobprivateKey, bobpublicKey)
 
-    console.log(decryptedMessage)
+    //console.log(decryptedMessage)
 
 
   }
