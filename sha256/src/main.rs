@@ -2,8 +2,8 @@ fn string_to_binary(s: &str) -> String {
     let mut result = String::new();
     let mut binary = String::new();
     for c in s.chars() {
-        if (c == ' ') {
-            binary = format!("00{:b}", c as u32);
+        if (format!("0{:b}", c as u32).len() != 8) {
+            binary = "0".repeat(8 - format!("0{:b}", c as u32).len()) + format!("0{:b}", c as u32).as_str();
         } else {
         binary = format!("0{:b}", c as u32);
         }
@@ -44,7 +44,7 @@ fn main() {
     // h6 := 0x1f83d9ab
     // h7 := 0x5be0cd19
 
-    const message: &str = "hello world";
+    const message: &str = "hello i love you wont you tell me your name?aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
     let mut h0: u32 = 0x6a09e667;
     let mut  h1: u32 = 0xbb67ae85;
@@ -79,11 +79,12 @@ fn main() {
    
 
     let mut paddedmessage: String = string_to_binary(message);
+    let amount_of_chunks: usize = ((paddedmessage.len()as f64  / 512f64).ceil()) as usize;
     //println!("{}",paddedmessage);
     //println!("{}",512 - paddedmessage.len());
     let pmlen: u64 = paddedmessage.len().try_into().unwrap();
     paddedmessage.push('1');
-    paddedmessage.push_str(("0".repeat(448 - paddedmessage.len())).as_str());
+    paddedmessage.push_str(("0".repeat((amount_of_chunks * 512) - paddedmessage.len())).as_str());
     paddedmessage.push_str((format!("{:064b}", pmlen)).as_str());
     // println!("{}",pmlen);
     // println!("{}",(format!("{:b}", pmlen)).as_str());
@@ -105,15 +106,12 @@ fn main() {
         w.push(convert_to_u32(&e));
     }
 
-    // println!("{:?}", w);
-    println!("109");
-
     for i in 16..64 {
-        let s0 = &w[i-15].rotate_right(7) ^ &w[i-15].rotate_right(18) ^ (&w[i-15] >> 7u32);
+        let s0 = &w[i-15].rotate_right(7) ^ &w[i-15].rotate_right(18) ^ (&w[i-15] >> 3u32);
         let s1 = &w[i-2].rotate_right(17) ^ &w[i-2].rotate_right(19) ^ (&w[i-2] >> 10u32);
         w[i] = w[i-16].wrapping_add(s0).wrapping_add(w[i-7]).wrapping_add(s1);
     }
-    println!("112");
+
     let mut a = h0;
     let mut b = h1;
     let mut c = h2;
@@ -131,7 +129,7 @@ fn main() {
             let temp1 = h.wrapping_add(S1).wrapping_add(ch).wrapping_add(k[i]).wrapping_add(w[i]);
             let mut S0 = (a.rotate_right(2)) ^ (a.rotate_right(13)) ^ (a.rotate_right(22));
             let mut maj = (a & b) ^ (a & c) ^ (b & c);
-            let mut temp2 = S0.wrapping_rem(maj);
+            let mut temp2 = S0.wrapping_add(maj);
     
             h = g;
             g = f;
@@ -141,8 +139,8 @@ fn main() {
             c = b;
             b = a;
             a = temp1.wrapping_add(temp2);
+
     }
-    println!("140");
 
     h0 = h0.wrapping_add(a);
     h1 = h1.wrapping_add(b);
@@ -152,61 +150,8 @@ fn main() {
     h5 = h5.wrapping_add(f);
     h6 = h6.wrapping_add(g);
     h7 = h7.wrapping_add(h);
-    println!("150");
 
-    let hash: String = format!("{:x}", h1) + format!("{:x}", h2).as_str() + format!("{:x}", h3).as_str() +  format!("{:x}", h4).as_str() +  format!("{:x}", h5).as_str() +  format!("{:x}", h6).as_str() +  format!("{:x}", h7).as_str();
+    let hash: String = format!("{:x}", h0) + format!("{:x}", h1).as_str() + format!("{:x}", h2).as_str() + format!("{:x}", h3).as_str() +  format!("{:x}", h4).as_str() +  format!("{:x}", h5).as_str() +  format!("{:x}", h6).as_str() +  format!("{:x}", h7).as_str();
     println!("{}",hash);
-    // Process the message in successive 512-bit chunks:
-    // break message into 512-bit chunks
-    // for each chunk
-    //     create a 64-entry message schedule array w[0..63] of 32-bit words
-    //     (The initial values in w[0..63] don't matter, so many implementations zero them here)
-    //     copy chunk into first 16 words w[0..15] of the message schedule array
-
-    //     Extend the first 16 words into the remaining 48 words w[16..63] of the message schedule array:
-    //     for i from 16 to 63
-    //         s0 := (w[i-15] rightrotate  7) xor (w[i-15] rightrotate 18) xor (w[i-15] rightshift  3)
-    //         s1 := (w[i-2] rightrotate 17) xor (w[i-2] rightrotate 19) xor (w[i-2] rightshift 10)
-    //         w[i] := w[i-16] + s0 + w[i-7] + s1
-
-    //     Initialize working variables to current hash value:
-    //     a := h0
-    //     b := h1
-    //     c := h2
-    //     d := h3
-    //     e := h4
-    //     f := h5
-    //     g := h6
-    //     h := h7
-
-    //     Compression function main loop:
-    //     for i from 0 to 63
-    //         S1 := (e rightrotate 6) xor (e rightrotate 11) xor (e rightrotate 25)
-    //         ch := (e and f) xor ((not e) and g)
-    //         temp1 := h + S1 + ch + k[i] + w[i]
-    //         S0 := (a rightrotate 2) xor (a rightrotate 13) xor (a rightrotate 22)
-    //         maj := (a and b) xor (a and c) xor (b and c)
-    //         temp2 := S0 + maj
-    
-    //         h := g
-    //         g := f
-    //         f := e
-    //         e := d + temp1
-    //         d := c
-    //         c := b
-    //         b := a
-    //         a := temp1 + temp2
-
-    //     Add the compressed chunk to the current hash value:
-    //     h0 := h0 + a
-    //     h1 := h1 + b
-    //     h2 := h2 + c
-    //     h3 := h3 + d
-    //     h4 := h4 + e
-    //     h5 := h5 + f
-    //     h6 := h6 + g
-    //     h7 := h7 + h
-
-    // Produce the final hash value (big-endian):
-    // digest := hash := h0 append h1 append h2 append h3 append h4 append h5 append h6 append h7
+    if hash == "B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9".to_lowercase() {println!("CORRECT")}
 }
