@@ -79,18 +79,21 @@ fn main() {
    
 
     let mut paddedmessage: String = string_to_binary(message);
-    let amount_of_chunks: usize = ((paddedmessage.len()as f64  / 512f64).ceil()) as usize;
+    let amount_of_chunks: usize = (paddedmessage.len()as f64  / 512f64).ceil() as usize; //.ceil()) as usize * 512;
     //println!("{}",paddedmessage);
     //println!("{}",512 - paddedmessage.len());
+    println!("{}",amount_of_chunks);
     let pmlen: u64 = paddedmessage.len().try_into().unwrap();
     paddedmessage.push('1');
-    paddedmessage.push_str(("0".repeat((amount_of_chunks * 512) - paddedmessage.len())).as_str());
+    paddedmessage.push_str(("0".repeat(((amount_of_chunks * 512) - (64 * amount_of_chunks)) - paddedmessage.len())).as_str());
     paddedmessage.push_str((format!("{:064b}", pmlen)).as_str());
     // println!("{}",pmlen);
     // println!("{}",(format!("{:b}", pmlen)).as_str());
     // println!("{}",paddedmessage);
     // println!("{}",paddedmessage.len());
-    paddedmessage.push_str(("0".repeat(48 * 32)).as_str());
+
+
+    //paddedmessage.push_str(("0".repeat(48 * 32)).as_str());
     // println!("{}",paddedmessage);
 
     let substrings: Vec<String> = paddedmessage.chars().collect::<Vec<char>>().chunks(32)
@@ -102,15 +105,25 @@ fn main() {
 
     let mut w:  Vec<u32> = vec![];
 
+    let mut chunks: Vec<Vec<u32>> = vec![Vec::new(); amount_of_chunks];
+    println!("{:?}",amount_of_chunks);
+
+    println!("{:?}",chunks);
     for e in substrings {
         w.push(convert_to_u32(&e));
     }
+    println!("w - {:?} lwn - {}",w,w.len());
 
-    for i in 16..64 {
-        let s0 = &w[i-15].rotate_right(7) ^ &w[i-15].rotate_right(18) ^ (&w[i-15] >> 3u32);
-        let s1 = &w[i-2].rotate_right(17) ^ &w[i-2].rotate_right(19) ^ (&w[i-2] >> 10u32);
-        w[i] = w[i-16].wrapping_add(s0).wrapping_add(w[i-7]).wrapping_add(s1);
+    let mut x = 0;
+    for i in 0..amount_of_chunks {
+        chunks[i].extend(w[x..x+16].to_vec());
+        chunks[i].extend(vec![0u32; 48]);
+        x += 16;
+        println!("{:?}",chunks);
     }
+
+    print!("{:?}",chunks);
+    println!("{} {} {}",chunks[0].len(),chunks[1].len(),chunks[2].len());
 
     let mut a = h0;
     let mut b = h1;
@@ -121,15 +134,25 @@ fn main() {
     let mut g = h6;
     let mut h = h7;
 
+    for chunk in chunks { 
+
+    for i in 16..64 {
+        let s0var = chunk[i-15];
+        let s1var = chunk[i-2];
+        let s0 = s0var.rotate_right(7) ^ s0var.rotate_right(18) ^ (s0var >> 3u32);
+        let s1 = s1var.rotate_right(17) ^ s1var.rotate_right(19) ^ (s1var >> 10u32);
+        w[i] = chunk[i-16].wrapping_add(s0).wrapping_add(chunk[i-7]).wrapping_add(s1);
+    }
+
 
     for i in 0..64 {
             let mut S1 = (e.rotate_right(6)) ^ (e.rotate_right(11)) ^ (e.rotate_right(25));
             let mut ch = (e & f) ^ ((!e) & g);
             //let mut temp1 = h + S1 + ch + k[i] + w[i];
-            let temp1 = h.wrapping_add(S1).wrapping_add(ch).wrapping_add(k[i]).wrapping_add(w[i]);
+            let temp1 = h.wrapping_add(S1).wrapping_add(ch).wrapping_add(k[i]).wrapping_add(chunk[i]);
             let mut S0 = (a.rotate_right(2)) ^ (a.rotate_right(13)) ^ (a.rotate_right(22));
             let mut maj = (a & b) ^ (a & c) ^ (b & c);
-            let mut temp2 = S0.wrapping_add(maj);
+            let mut temp2 = S0.wrapping_add(maj); 
     
             h = g;
             g = f;
@@ -141,7 +164,8 @@ fn main() {
             a = temp1.wrapping_add(temp2);
 
     }
-
+    
+    }
     h0 = h0.wrapping_add(a);
     h1 = h1.wrapping_add(b);
     h2 = h2.wrapping_add(c);
@@ -154,4 +178,5 @@ fn main() {
     let hash: String = format!("{:x}", h0) + format!("{:x}", h1).as_str() + format!("{:x}", h2).as_str() + format!("{:x}", h3).as_str() +  format!("{:x}", h4).as_str() +  format!("{:x}", h5).as_str() +  format!("{:x}", h6).as_str() +  format!("{:x}", h7).as_str();
     println!("{}",hash);
     if hash == "B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9".to_lowercase() {println!("CORRECT")}
+    
 }
