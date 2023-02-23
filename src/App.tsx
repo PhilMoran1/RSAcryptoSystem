@@ -3,7 +3,7 @@ import { isReadable } from 'stream';
 // import './App.css';
 import RSACryptoSystem from './rsa';
 //import * as wasm from './rust-sha256/pkg/rust_sha256';
-
+import Bob from './bob'
 //import 'rsa.rsx';
 //import { RSACryptoSystem } from './rsa';
 // import Button from './Button';
@@ -76,6 +76,7 @@ function App() {
     <div>
       <h1> hola hermanito! </h1>
       <button onClick={onclickHandler}> genkeypair </button>
+      <Bob></Bob>
       {/* <button onClick={setClick("hello")}></button> */}
     </div>
   );
