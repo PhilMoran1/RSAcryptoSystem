@@ -1,29 +1,30 @@
 # RSA crypto system
 
-This script provides a class that generates RSA keys, encrypts and decrypts messages.
+This script provides a class that generates RSA keys, encrypts and decrypts messages as well as signs.
 
 # Initialize
 ```
-    const rsa = RSACryptoSystem()
+    const rsa = new RSACryptoSystem()
 ```
 
 
 # Generate Keypairs
 ```
-    const {publicKey, privateKey} = rsa.genKeypair(bits)
+    const keypair = rsa.genKeypair(bits)
 ```
 Keep in mind that generating keypairs usually takes a couple of minutes.
 
 
 # Encrypt
 ```
-    const encryptedMessage = rsa.encrypt(message, reciever)
+    const encryptedMessage = rsa.encrypt(message, sender, reciever)
 ```
+This function also signs the message
 
 
 # Decrypt
 ```
-    const decryptedMessage = rsa.decrypt(encryptedMessage, privateKey, publicKey)
+    const decryptedMessage = rsa.decrypt(encryptedMessage, reciever, sender)
 ```
 
 # Other functions

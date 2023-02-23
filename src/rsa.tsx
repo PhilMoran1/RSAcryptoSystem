@@ -117,12 +117,14 @@ class RSACryptoSystem {
 
         while (true) {
             // random n bit integer
+            
             const randBuf = new Uint8Array(numBytes);
             window.crypto.getRandomValues(randBuf);
+
             const randHex = Array.from(randBuf).map(b => b.toString(16).padStart(2, '0')).join('');
             randBigInt = BigInt('0x' + randHex);
             
-            if (this.isProbablyPrime(randBigInt,100000)) { break } // else {console.log("aintprimetime")}
+            if (this.isProbablyPrime(randBigInt,10000)) { break } // else {console.log("aintprimetime")}
         }
 
         return randBigInt
