@@ -1,0 +1,23 @@
+.inputmain {
+    width: 20%;
+    height: 100px;
+    box-shadow: -3px 3px 5px 0px rgba(0,0,0,0.10);
+   
+
+
+}
+
+
+.inputmain textarea {
+    display: inline-block;
+    min-width: 98%;
+    max-width: 98%;
+    max-height: 100px; 
+    min-height: 100%;
+    overflow: auto;
+}
+
+.inputmain label {
+    text-align: center;
+    color: #595959;
+}

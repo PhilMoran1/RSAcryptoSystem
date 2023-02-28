@@ -1,11 +1,13 @@
 // // @ts-check
 // Load the WebAssembly module from the "src" directory
 import init, {sha256} from './sha256/pkg/sha256'
+// import sjcl from 'sjcl';
 
 class RSACryptoSystem {
 
     constructor() {
-      init().then(m => {const a = m.sha256(10,10)}); // this needs explination
+      //console.log(init())
+      init().then(m => {const a = m.sha256(10,10);}); // this needs explination
     }
 
     
@@ -120,11 +122,13 @@ class RSACryptoSystem {
             
             const randBuf = new Uint8Array(numBytes);
             window.crypto.getRandomValues(randBuf);
-
             const randHex = Array.from(randBuf).map(b => b.toString(16).padStart(2, '0')).join('');
             randBigInt = BigInt('0x' + randHex);
+
+            //randBigInt = BigInt(parseInt(generate_random_biguint("512")));
             
-            if (this.isProbablyPrime(randBigInt,10000)) { break } // else {console.log("aintprimetime")}
+            //console.log(randBigInt)
+            if (this.isProbablyPrime(randBigInt,1000)) { break } // else {console.log("aintprimetime")}
         }
 
         return randBigInt
@@ -251,8 +255,8 @@ class RSACryptoSystem {
 
 
         return { 
-            publicKey: n.toString(),
-            privateKey: d.toString()
+            pubKey: n.toString(),
+            privKey: d.toString()
         }
 
         }
@@ -295,20 +299,27 @@ class RSACryptoSystem {
             
             const mbin = this.numberToBin(m) //m.toString(2)
             
-            console.log("decryptbin - ", mbin)
+            //console.log("decryptbin - ", mbin)
 
-            console.log("result - ",this.binaryToString(mbin))
+            //console.log("result - ",this.binaryToString(mbin))
 
-            const decryptedMessage = this.binaryToString(mbin);
+            let decryptedMessage = this.binaryToString(mbin);
 
             const a = BigInt(parseInt(sha256(decryptedMessage),16))
             //const a = sha256(this.binaryToString(mbin));
-            console.log("a - ",a)
+            //console.log("a - ",a)
             const b = this.modPow(message.signature,BigInt(65537),BigInt(sender))
-            console.log("b - ", b)
+            //console.log("b - ", b)
             if (a == b) {
               console.log("message has been signed")
+              return {decryptedMessage, signed: true}
+            } else {
+              console.log("NOT SIGNED")
+              decryptedMessage += " - This message has not been signed"
+              return {decryptedMessage, signed: false}
             }
+
+            
 
 
         }

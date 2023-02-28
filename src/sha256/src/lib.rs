@@ -1,6 +1,13 @@
 extern crate wasm_bindgen;
+// use std::str::FromStr;
 
+// use rand::thread_rng as rng;
 use wasm_bindgen::prelude::*;
+// use web_sys::crypto::get_random_values_with_u8_array;
+// use num_bigint::{BigUint};
+
+// extern crate rand;
+// use rand::{OsRng, Rng};
 
 #[wasm_bindgen]
 extern {
@@ -9,9 +16,44 @@ extern {
 
 #[wasm_bindgen]
 pub fn greet(name: &str) {
+   
     alert(&format!("Hello, {}!", name));
 }
 
+// #[wasm_bindgen]
+// pub fn generate_random_biguint(bits: &str) -> JsValue {
+//     use rand::{Rng, thread_rng};
+
+//     let num_bits = 256;
+//     let num_bytes = (num_bits as f64 / 8.0).ceil() as usize;
+//     // //let mut rng = rand::thread_rng();
+//     // let rand_bytes: Vec<u8> = (0..num_bytes).map(|_| rng.gen_range(0..255)).collect();
+//     // let mut rng = thread_rng();     
+//     let rand_bytes: Vec<u8> = vec![0u8,32];
+
+//     //let rand_bytes: Vec<u8> = (0..num_bytes).map(|_| rng.gen_range(0..255)).collect();
+    
+//     let big_uint = BigUint::from_bytes_be(&rand_bytes);
+//     return JsValue::from_str(&format!("{}", big_uint.to_string()))
+
+//     //return JsValue::from_str(&format!("{}","hello from random big int"));
+// }
+// #[wasm_bindgen]
+// pub fn generate_random_biguint(bits: &str) -> JsValue {
+// //     let num_bits = 256;
+// //     let num_bytes = (num_bits as f64 / 8.0).ceil() as usize;
+    
+// //     // Generate random bytes using Web Crypto API
+// //     let mut rand_bytes = vec![0u8; num_bytes];
+// //     get_random_values_with_u8_array(&mut rand_bytes).expect("failed to generate random bytes");
+    
+// //     let big_uint = BigUint::from_bytes_be(&rand_bytes);
+//     // return JsValue::from_str(&format!("{}", big_uint.to_string()))
+//     //let mut rng = OsRng::new().expect("Error opening random number generator");
+//     //println!("Random: {}", rng.next_u32());
+//     alert("hello");
+//     return JsValue::from_str(&format!("{}","rng.next_u32()")) //JsValue::from_str(&format!("{}",rng.next_u32()))
+// }
 fn string_to_binary(s: &str) -> String {
     let mut result = String::new();
     let mut binary = String::new();
@@ -39,7 +81,7 @@ fn convert_to_u32(binary_str: &str) -> u32 {
 
 #[wasm_bindgen]
 pub fn sha256(message: &str) -> JsValue {
-
+    //let jjkjkjkj: BigUint = BigUint::from(89u32); 
     //const message: &str = "joenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnfjoenafnafpisnfpsnfpanspjnfpasjfnpasnf";
 
     let mut h0: u32 = 0x6a09e667;

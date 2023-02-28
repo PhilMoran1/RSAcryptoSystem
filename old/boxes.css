@@ -1,0 +1,21 @@
+.Main {
+    width: 50%;
+    /* text-align: center; */
+    background-color: white;
+    border-radius: 10px;
+    /* height: 70vh; */
+    box-shadow: 2px 2px 2px black;
+}
+.Main p {
+    word-wrap: break-word;
+}
+
+.largeOutput {
+    width: 200px;
+    height: 100px;
+    word-wrap: break-word;
+    overflow: auto;
+}
+label {
+    font-weight: bold;
+}
