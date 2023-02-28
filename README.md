@@ -27,7 +27,7 @@ This function also signs the message
 
 # Other functions
 ```
-getPrime(bits: number): bigint                 // generates a random prime number
+getPrime(bits: number): bigint                 // generates a big random prime number
 
 isProbablyPrime(n: bigint, k: number): boolean // miller rabins primality test
 

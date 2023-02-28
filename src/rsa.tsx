@@ -1,6 +1,6 @@
 // // @ts-check
 // Load the WebAssembly module from the "src" directory
-import init, {sha256} from './sha256/pkg/sha256.js'
+import init, {sha256} from './sha256/pkg/sha256'
 
 class RSACryptoSystem {
 
@@ -262,13 +262,6 @@ class RSACryptoSystem {
 
             // binary to number
             const n = this.binaryToNumber(messagebin)
-
-            console.log("encrypt bin - ",messagebin)
-            console.log("n - ", n)
-            console.log("encrypted n to string - " , n.toString(2))
-            console.log("bin to string - ", this.binaryToString(messagebin))
-
-            console.log(BigInt(reciever))
 
             // c ≡ m^e mod n
             const encryptedMessage = this.modPow(n,BigInt(65537),BigInt(reciever))
