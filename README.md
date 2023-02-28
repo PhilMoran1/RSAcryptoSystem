@@ -12,8 +12,6 @@ This script provides a class that generates RSA keys, encrypts and decrypts mess
 ```
     const keypair = rsa.genKeypair(bits)
 ```
-Keep in mind that generating keypairs usually takes a couple of minutes.
-
 
 # Encrypt
 ```

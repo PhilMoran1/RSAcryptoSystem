@@ -1,6 +1,6 @@
 // // @ts-check
 // Load the WebAssembly module from the "src" directory
-import init, {sha256} from './sha256/pkg/sha256'
+import init, {sha256} from './sha256/pkg/sha256.js'
 
 class RSACryptoSystem {
 
