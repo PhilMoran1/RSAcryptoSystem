@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { isReadable } from 'stream';
 import './App.css';
 import RSACryptoSystem from './rsa';
 
@@ -8,25 +7,7 @@ import SelectPerson from './components/SelectPerson';
 import InputBox from './components/InputBox';
 import DisplayBox from './components/DisplayBox';
 import CreateNewContact from './components/CreateNewContact';
-// import { encrypt } from 'sjcl';
-//import * as wasm from './rust-sha256/pkg/rust_sha256';
-// import Person from './Person';
-// import NewPerson from './old/NewPerson';
-// import Sender from './Sender'
-// import Reciever from './Reciever'
 
-
-//import 'rsa.rsx';
-//import { RSACryptoSystem } from './rsa';
-// import Button from './Button';
-//import * as wasm from './sha256/sha256.js';
-// const rust = import("./sha256/sha256");
-// console.log(rust);
-// rust.then(m => console.log(m));
-// Import the WebAssembly module
-// Import the WebAssembly module
-// TypeScript code
-// import init, {sha256} from './sha256/pkg/sha256'
 
 function App() {
   const rsa = new RSACryptoSystem()

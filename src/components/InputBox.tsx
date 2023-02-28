@@ -24,7 +24,6 @@ const InputBox: React.FC<Props> = ({ label, onInputChange }) => {
     return (
         <div className='inputmain'>
             <label>{label}</label>
-            {/* <input type='text' value={input} onChange={handleInputChange}></input> */}
             <textarea value={input} onChange={e => setInput(e.target.value)} rows={4} cols={50} > </textarea>
         </div>
     )
