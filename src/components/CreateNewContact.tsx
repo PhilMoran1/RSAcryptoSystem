@@ -48,7 +48,7 @@ const CreateNewContact: React.FC<Props> = ({ onNewContact}) => {
             <p>Private Key: </p>
             <p>{keypair.privKey.slice(0, 8)} ... {keypair.privKey.slice(keypair.privKey.length - 8, keypair.privKey.length)} </p>
 
-            <button onClick={createNewPerson}> Create New Person </button>
+            <button onClick={createNewPerson}> Create New Contact </button>
         </div>
     );
 }

@@ -89,24 +89,26 @@ function App() {
   
   return (
     <div className='MainPage'>
+      <div className='LeftSide'>
+        {/* SENDER */}
+        <h2>Encrypt</h2>
+        <SelectPerson contacts={contacts} label={"Sender"} onPersonChange={senderChangeHandler}></SelectPerson><br/>
+        <SelectPerson contacts={contacts} label={"Receiver"} onPersonChange={recieverChangeHandler}></SelectPerson>
+        <InputBox label={"Message"} onInputChange={messageChangeHandler}></InputBox><br/><br/>
+        <DisplayBox label={"Encrypted Message"} content={encryptedMessage.encryptedMessage.toString()}></DisplayBox><br/><br/>
+        <DisplayBox label={"Signature"} content={encryptedMessage.signature.toString()}></DisplayBox><br/><br/>
+        <h2>Create New Keypair</h2>
+        <CreateNewContact onNewContact={addNewContactHandler}></CreateNewContact>
+      </div>
 
-      {/* SENDER */}
-      <h2>Encrypt</h2>
-      <SelectPerson contacts={contacts} label={"Sender"} onPersonChange={senderChangeHandler}></SelectPerson><br/>
-      <SelectPerson contacts={contacts} label={"Reciever"} onPersonChange={recieverChangeHandler}></SelectPerson>
-      <InputBox label={"Messsage"} onInputChange={messageChangeHandler}></InputBox><br/><br/>
-      <DisplayBox label={"Encrypted Message"} content={encryptedMessage.encryptedMessage.toString()}></DisplayBox><br/><br/>
-      <DisplayBox label={"Signature"} content={encryptedMessage.signature.toString()}></DisplayBox><br/><br/>
-
-      {/* Reciever */}
-      <h2>Decrypt</h2>
-      <SelectPerson contacts={contacts} label={"Decrypter"} onPersonChange={personChangeHandler}></SelectPerson>
-      <DisplayBox label={"Decrypted Message"} content={decryptedMessage.decryptedMessage.toString()}></DisplayBox><br/>
-
-      <h2>Create New Keypair</h2>
-      <CreateNewContact onNewContact={addNewContactHandler}></CreateNewContact>
-
+      <div className='RightSide'>
+        {/* Receiver */}
+        <h2>Decrypt</h2>
+        <SelectPerson contacts={contacts} label={"Decrypter"} onPersonChange={personChangeHandler}></SelectPerson>
+        <DisplayBox label={"Decrypted Message"} content={decryptedMessage.decryptedMessage.toString()}></DisplayBox><br/>
+      </div>
     </div>
+
   );
 }
 

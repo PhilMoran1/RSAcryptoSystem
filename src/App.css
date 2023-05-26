@@ -8,17 +8,26 @@ body {
 
 
 .MainPage {
-  position: fixed;
-  left: 40%;
+  /* position: fixed; */
+  /* left: 40%; */
   /* margin-right: -50%; */
 
-  min-width: 100%;
+  /* min-width: 100%;
 
   animation-name: fadeIn;
     animation-duration: 0.5s;
-    animation-timing-function: ease-in-out; /* set animation duration and timing function */
+    animation-timing-function: ease-in-out; set animation duration and timing function */
+    display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
+.LeftSide {
+  /* width: 45%; */
+}
 
+.RightSide {
+  /* width: 45%; */
 }
 
 @keyframes fadeIn {
